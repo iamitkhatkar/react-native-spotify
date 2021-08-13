@@ -89,7 +89,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 		if(player != null) {
 			player.removeNotificationCallback(RNSpotifyModule.this);
 			player.removeConnectionStateCallback(RNSpotifyModule.this);
-			Spotify.destroyPlayer(this);
+			player.destroy();
 			player = null;
 		}
 	}
