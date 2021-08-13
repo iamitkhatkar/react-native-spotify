@@ -92,6 +92,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 			player.destroy();
 			player = null;
 		}
+		super.onCatalystInstanceDestroy();
 	}
 
 	private Object nullobj() {
