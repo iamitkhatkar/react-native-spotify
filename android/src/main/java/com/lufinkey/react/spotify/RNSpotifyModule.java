@@ -89,10 +89,9 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 		if(player != null) {
 			player.removeNotificationCallback(RNSpotifyModule.this);
 			player.removeConnectionStateCallback(RNSpotifyModule.this);
-			player.destroy();
+			Spotify.destroyPlayer(this);
 			player = null;
 		}
-		super.onCatalystInstanceDestroy();
 	}
 
 	private Object nullobj() {
@@ -909,31 +908,35 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 	@ReactMethod
 	//playURI(spotifyURI, startIndex, startPosition)
 	public void playURI(final String spotifyURI, final int startIndex, final double startPosition, final Promise promise) {
-		if(spotifyURI==null) {
-			SpotifyError.getNullParameterError("spotifyURI").reject(promise);
-			return;
+		try {
+			if (spotifyURI == null) {
+				SpotifyError.getNullParameterError("spotifyURI").reject(promise);
+				return;
+			}
+			prepareForPlayer(new Completion<Void>() {
+				@Override
+				public void onReject(SpotifyError error) {
+					error.reject(promise);
+				}
+
+				@Override
+				public void onResolve(Void unused) {
+					player.playUri(new Player.OperationCallback() {
+						@Override
+						public void onError(com.spotify.sdk.android.player.Error error) {
+							new SpotifyError(error).reject(promise);
+						}
+
+						@Override
+						public void onSuccess() {
+							promise.resolve(null);
+						}
+					}, spotifyURI, startIndex, (int) (startPosition * 1000));
+				}
+			});
+		}catch (Exception e){
+			Log.e("error", e.getMessage());
 		}
-		prepareForPlayer(new Completion<Void>() {
-			@Override
-			public void onReject(SpotifyError error) {
-				error.reject(promise);
-			}
-
-			@Override
-			public void onResolve(Void unused) {
-				player.playUri( new Player.OperationCallback() {
-					@Override
-					public void onError(com.spotify.sdk.android.player.Error error) {
-						new SpotifyError(error).reject(promise);
-					}
-
-					@Override
-					public void onSuccess() {
-						promise.resolve(null);
-					}
-				}, spotifyURI, startIndex, (int)(startPosition*1000));
-			}
-		});
 	}
 
 	@ReactMethod
