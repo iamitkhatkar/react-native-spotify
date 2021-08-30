@@ -921,17 +921,19 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 				@Override
 				public void onResolve(Void unused) {
+					if(player != null){
 					player.playUri(new Player.OperationCallback() {
-						@Override
-						public void onError(com.spotify.sdk.android.player.Error error) {
-							new SpotifyError(error).reject(promise);
-						}
+							@Override
+							public void onError(com.spotify.sdk.android.player.Error error) {
+								new SpotifyError(error).reject(promise);
+							}
 
-						@Override
-						public void onSuccess() {
-							promise.resolve(null);
-						}
-					}, spotifyURI, startIndex, (int) (startPosition * 1000));
+							@Override
+							public void onSuccess() {
+								promise.resolve(null);
+							}
+						}, spotifyURI, startIndex, (int) (startPosition * 1000));
+					}
 				}
 			});
 		}catch (Exception e){
@@ -1005,30 +1007,34 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 			@Override
 			public void onResolve(Void unused) {
 				if(playing) {
-					player.resume(new Player.OperationCallback(){
-						@Override
-						public void onError(com.spotify.sdk.android.player.Error error) {
-							new SpotifyError(error).reject(promise);
-						}
+					if(player != null){
+						player.resume(new Player.OperationCallback(){
+							@Override
+							public void onError(com.spotify.sdk.android.player.Error error) {
+								new SpotifyError(error).reject(promise);
+							}
 
-						@Override
-						public void onSuccess() {
-							promise.resolve(null);
-						}
-					});
+							@Override
+							public void onSuccess() {
+								promise.resolve(null);
+							}
+						});
+					}
 				}
 				else {
+					if(player != null){
 					player.pause(new Player.OperationCallback(){
-						@Override
-						public void onError(com.spotify.sdk.android.player.Error error) {
-							new SpotifyError(error).reject(promise);
-						}
+							@Override
+							public void onError(com.spotify.sdk.android.player.Error error) {
+								new SpotifyError(error).reject(promise);
+							}
 
-						@Override
-						public void onSuccess() {
-							promise.resolve(null);
-						}
-					});
+							@Override
+							public void onSuccess() {
+								promise.resolve(null);
+							}
+						});
+					}
 				}
 			}
 		});
