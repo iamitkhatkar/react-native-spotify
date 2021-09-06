@@ -185,7 +185,9 @@ public class Auth
 
 	public void renewSession(final Completion<Boolean> completion, boolean waitForDefinitiveResponse) {
 		if(!canRefreshSession()) {
-			completion.resolve(false);
+			if(completion != null){
+				completion.resolve(false);
+			}
 			return;
 		}
 

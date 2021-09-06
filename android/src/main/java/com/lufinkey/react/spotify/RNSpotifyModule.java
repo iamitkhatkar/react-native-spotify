@@ -956,6 +956,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.queue(new Player.OperationCallback() {
 					@Override
 					public void onError(com.spotify.sdk.android.player.Error error) {
@@ -967,6 +968,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				}, spotifyURI);
+			}
 			}
 		});
 	}
@@ -1081,6 +1083,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.skipToNext(new Player.OperationCallback() {
 					@Override
 					public void onError(Error error) {
@@ -1092,6 +1095,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				});
+			}
 			}
 		});
 	}
@@ -1107,6 +1111,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.skipToPrevious(new Player.OperationCallback() {
 					@Override
 					public void onError(Error error) {
@@ -1118,6 +1123,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				});
+			}
 			}
 		});
 	}
@@ -1134,6 +1140,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.seekToPosition(new Player.OperationCallback() {
 					@Override
 					public void onError(Error error) {
@@ -1145,6 +1152,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				}, (int)(position*1000));
+			}
 			}
 		});
 	}
@@ -1160,6 +1168,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.setShuffle(new Player.OperationCallback() {
 					@Override
 					public void onError(Error error) {
@@ -1171,6 +1180,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				}, shuffling);
+			}
 			}
 		});
 	}
@@ -1186,6 +1196,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 
 			@Override
 			public void onResolve(Void unused) {
+				if(player != null){
 				player.setRepeat(new Player.OperationCallback() {
 					@Override
 					public void onError(Error error) {
@@ -1197,6 +1208,7 @@ public class RNSpotifyModule extends ReactContextBaseJavaModule implements Playe
 						promise.resolve(null);
 					}
 				}, repeating);
+			}
 			}
 		});
 	}
